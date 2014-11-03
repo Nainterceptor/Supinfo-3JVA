@@ -14,7 +14,7 @@ import com.supinfo.sun.supcommerce.doa.SupProductDao;
 /**
  * Servlet implementation class InsertSomeProductServlet
  */
-@WebServlet("/basicInsert")
+@WebServlet("/auth/basicInsert")
 public class InsertSomeProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
