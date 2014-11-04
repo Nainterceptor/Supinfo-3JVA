@@ -24,4 +24,5 @@ public class LoginServlet extends HttpServlet {
 		session.setAttribute("username", username);
 		response.sendRedirect(request.getContextPath() + "/listProduct.jsp");		
 	}
+
 }

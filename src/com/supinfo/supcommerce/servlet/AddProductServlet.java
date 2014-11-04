@@ -2,6 +2,7 @@ package com.supinfo.supcommerce.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,5 +42,8 @@ public class AddProductServlet extends HttpServlet {
 
 		response.sendRedirect(request.getContextPath() + "/showProduct.jsp?id=" + product.getId());
 	}
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher rd = request.getRequestDispatcher("/auth/addProduct.jsp");
+		rd.forward(request, response);
+	}
 }

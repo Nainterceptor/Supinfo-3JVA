@@ -11,7 +11,7 @@
 		<title>Product list</title>
 	</head>
 	<body>
-	<jsp:include page="header.jsp" />
+	<%@ include file="/header.jsp" %>
 	<h1>Product list</h1>
 	
 	<c:forEach items="${products}" var="p">
@@ -22,13 +22,13 @@
 			<a href="showProduct.jsp?id=<c:out value="${p.id}" />">Show details</a>
 			</p>
 			<c:if test="${!empty sessionScope.username }">
-				<form method="post" action="${pageContext.request.contextPath}/auth/removeProduct">
+			<form method="post" action="${pageContext.request.contextPath}/auth/removeProduct">
 					<input type="hidden" name="id" value="<c:out value="${p.id}" />"/>
 					<input type="submit" value="Remove">
 				</form>
 			</c:if>
 	</c:forEach>
 	
-	<jsp:include page="footer.jsp" />
+	<%@ include file="/footer.jsp" %>
 	</body>
 </html>
