@@ -1,5 +1,7 @@
 <%@page import="com.supinfo.sun.supcommerce.doa.SupProductDao"%>
 <%@page import="com.supinfo.sun.supcommerce.bo.SupProduct"%>
+<%@page import="java.util.List"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,24 +11,24 @@
 		<title>Product list</title>
 	</head>
 	<body>
-	<%@ include file="/header.jsp" %>
+	<jsp:include page="header.jsp" />
 	<h1>Product list</h1>
 	
-	<% for(SupProduct product : SupProductDao.getAllProducts()) { %>
-		<h2><%= product.getName() %></h2>
+	<c:forEach items="${products}" var="p">
+		<h2><c:out value="${p.name}" /></h2>
 		<p>
-			<%= product.getContent() %> <br />
-			<%= product.getPrice() %> euros <br />
-			<a href="showProduct.jsp?id=<%= product.getId() %>">Show details</a>
+			<c:out value="${p.content}" /> <br />
+			<c:out value="${p.price}" /> euros <br />
+			<a href="showProduct.jsp?id=<c:out value="${p.id}" />">Show details</a>
 			</p>
-			<% if(session.getAttribute("username") != null) { %>
-				<form method="post" action="<%= application.getContextPath() %>/auth/removeProduct">
-					<input type="hidden" name="id" value="<%= product.getId() %>"/>
+			<c:if test="${!empty sessionScope.username }">
+				<form method="post" action="${pageContext.request.contextPath}/auth/removeProduct">
+					<input type="hidden" name="id" value="<c:out value="${p.id}" />"/>
 					<input type="submit" value="Remove">
 				</form>
-			<% } %>
-	<% } %>
+			</c:if>
+	</c:forEach>
 	
-	<%@ include file="/footer.jsp" %>
+	<jsp:include page="footer.jsp" />
 	</body>
 </html>
