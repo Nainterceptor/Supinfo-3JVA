@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class AuthenticateFilter
  */
+@WebFilter("/auth/*")
 public class AuthenticateFilter implements Filter {
 
     /**
@@ -43,7 +44,7 @@ public class AuthenticateFilter implements Filter {
 			chain.doFilter(request, response);
 			return;
 		}
-		httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.html");
+		httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp");
 	}
 
 	/**
