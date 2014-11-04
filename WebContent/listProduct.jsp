@@ -17,8 +17,14 @@
 		<p>
 			<%= product.getContent() %> <br />
 			<%= product.getPrice() %> euros <br />
-			<a href="showProduct.jsp?id=<%= product.getId() %>">show details</a>
-		</p>
+			<a href="showProduct.jsp?id=<%= product.getId() %>">Show details</a>
+			</p>
+			<% if(session.getAttribute("username") != null) { %>
+				<form method="post" action="<%= application.getContextPath() %>/auth/removeProduct">
+					<input type="hidden" name="id" value="<%= product.getId() %>"/>
+					<input type="submit" value="Remove">
+				</form>
+			<% } %>
 	<% } %>
 	
 	<%@ include file="/footer.jsp" %>
