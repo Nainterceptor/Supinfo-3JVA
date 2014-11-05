@@ -1,12 +1,7 @@
 package com.supinfo.supcommerce.servlet;
 
 import java.io.IOException;
-import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.supinfo.supcommerce.dao.DaoFactory;
 import com.supinfo.supcommerce.entity.Category;
 import com.supinfo.supcommerce.entity.Product;
 
@@ -23,15 +19,7 @@ import com.supinfo.supcommerce.entity.Product;
 @WebServlet("/auth/addProduct")
 public class AddProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private EntityManagerFactory emf;
-	@Override
-	public void init() throws ServletException {
-		emf = Persistence.createEntityManagerFactory("PU");
-	}
-	@Override
-	public void destroy() {
-		emf.close();
-	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -51,30 +39,20 @@ public class AddProductServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 			categoryId = 0;
 		}
-		EntityManager em = emf.createEntityManager();
 
 		Product product = new Product();
 		product.setName(name);
 		product.setContent(content);
 		product.setPrice(price);
 
-		Category category = em.find(Category.class, categoryId);
+		Category category = DaoFactory.getCategoryDao().getCategoryByIdWithProducts(categoryId);
 		product.setCategory(category);
-
-		em.getTransaction().begin();
-		em.persist(product);
-		em.getTransaction().commit();
-		em.close();
+		DaoFactory.getProductDao().addProduct(product);
 		
 		response.sendRedirect(request.getContextPath() + "/showProduct.jsp?id=" + product.getId());
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("SELECT c FROM Category AS c");
-		List<Category> categories = query.getResultList();
-		em.close();
-
-		request.setAttribute("categories", categories);
+		request.setAttribute("categories", DaoFactory.getCategoryDao().getAllCategories());
 		RequestDispatcher rd = request.getRequestDispatcher("/auth/addProduct.jsp");
 		rd.forward(request, response);
 	}

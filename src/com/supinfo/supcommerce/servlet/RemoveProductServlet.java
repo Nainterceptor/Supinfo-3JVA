@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.supinfo.sun.supcommerce.doa.SupProductDao;
+import com.supinfo.supcommerce.dao.DaoFactory;
+import com.supinfo.supcommerce.entity.Product;
 
 /**
  * Servlet implementation class RemoveProductServlet
@@ -22,7 +23,8 @@ public class RemoveProductServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			SupProductDao.removeProduct(Long.parseLong(request.getParameter("id")));
+			Product product = DaoFactory.getProductDao().findProductById(Long.parseLong(request.getParameter("id")));
+			DaoFactory.getProductDao().removeProduct(product);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

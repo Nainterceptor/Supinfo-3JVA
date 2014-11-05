@@ -1,0 +1,14 @@
+package com.supinfo.supcommerce.dao;
+
+import java.util.List;
+
+import com.supinfo.supcommerce.entity.Category;
+
+public interface CategoryDao {
+	void addCategory(Category category);
+	Category findCategoryById(Long id);
+	List<Category> getAllCategories();
+	void updateCategory(Category category);
+	void removeCategory(Category category);
+	Category getCategoryByIdWithProducts(Long id);
+}
